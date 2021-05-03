@@ -33,6 +33,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.SecondTeacher)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Students)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -67,10 +70,17 @@
                 }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                @foreach (var actor in item.Students)
+                {
+                    <a asp-controller="Students" asp-action="Details" asp-route-id="@actor.StudentId"> @actor.Student.FullName </a> <br />
+                }
+        </td>
+
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
         </tr>
 }
     </tbody>
