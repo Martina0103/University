@@ -69,18 +69,20 @@
                     <a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.SecondTeacherId"> @Html.DisplayFor(modelItem => item.SecondTeacher.FullName)</a>
                 }
             </td>
-            <td>
-                @foreach (var actor in item.Students)
-                {
-                    <a asp-controller="Students" asp-action="Details" asp-route-id="@actor.StudentId"> @actor.Student.FullName </a> <br />
-                }
-        </td>
 
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-        </td>
+            <!-- Dodavame studenti vo Delete/Details/Index on -->
+            <td>
+                @foreach (var student in item.Students)
+                {
+                    <a asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId"> @student.Student.FullName </a> <br />
+                }
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
         </tr>
 }
     </tbody>

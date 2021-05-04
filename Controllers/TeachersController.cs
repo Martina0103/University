@@ -22,7 +22,13 @@ namespace University.Controllers
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Teacher.ToListAsync());
+            // return View(await _context.Teacher.ToListAsync());
+
+            // Dodadeno za da gi pokazuva predmetite vo Teachers Controller-ot ***
+            var universityContext = _context.Teacher.Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher)
+                .Include(m => m.SecondCourses).ThenInclude(m => m.SecondTeacher); //dodadeno e 
+            return View(await universityContext.ToListAsync());
+            //******
         }
 
         // GET: Teachers/Details/5
@@ -33,8 +39,16 @@ namespace University.Controllers
                 return NotFound();
             }
 
+            // Dodadeno za da gi pokazuva predmetite vo Teachers Controller-ot ***
             var teacher = await _context.Teacher
-                .FirstOrDefaultAsync(m => m.Id == id);
+               .Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher) 
+               .Include(n => n.SecondCourses).ThenInclude(n => n.SecondTeacher)
+               .FirstOrDefaultAsync(m => m.Id == id);
+            //*******
+
+            /*var teacher = await _context.Teacher
+                .FirstOrDefaultAsync(m => m.Id == id);*/
+
             if (teacher == null)
             {
                 return NotFound();
@@ -124,8 +138,16 @@ namespace University.Controllers
                 return NotFound();
             }
 
+            // Dodadeno za da gi pokazuva predmetite vo Teachers Controller-ot ***
             var teacher = await _context.Teacher
-                .FirstOrDefaultAsync(m => m.Id == id);
+               .Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher) 
+               .Include(n => n.SecondCourses).ThenInclude(n => n.SecondTeacher)
+               .FirstOrDefaultAsync(m => m.Id == id);
+            //*********
+
+            /*var teacher = await _context.Teacher
+                .FirstOrDefaultAsync(m => m.Id == id);*/
+
             if (teacher == null)
             {
                 return NotFound();

@@ -139,7 +139,7 @@ namespace University.Controllers
             var course = await _context.Course
                 .Include(c => c.FirstTeacher)
                 .Include(c => c.SecondTeacher)
-                .Include(n => n.Students).ThenInclude(n => n.Student) //dodadeno
+                .Include(n => n.Students).ThenInclude(n => n.Student) //dodadeno radi many-to-many
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
