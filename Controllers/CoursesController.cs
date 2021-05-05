@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using University.Data;
 using University.Models;
+using University.ViewModels;
 
 namespace University.Controllers
 {
@@ -20,10 +21,39 @@ namespace University.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int CourseSemester, string CourseProgramme, string SearchList)
         {
-            var universityContext = _context.Course.Include(c => c.FirstTeacher).Include(c => c.SecondTeacher).Include(n => n.Students).ThenInclude(n => n.Student); //dodadeno e .Include(n => n.Students).ThenInclude(n => n.Student)
-            return View(await universityContext.ToListAsync());
+            //var universityContext = _context.Course.Include(c => c.FirstTeacher).Include(c => c.SecondTeacher).Include(n => n.Students).ThenInclude(n => n.Student); //dodadeno e .Include(n => n.Students).ThenInclude(n => n.Student)
+
+            IQueryable<Course> courses = _context.Course.AsQueryable();
+            IQueryable<int> semesterQuery = (IQueryable<int>)_context.Course.OrderBy(m => m.Semester).Select(m => m.Semester).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
+            IQueryable<string> programmeQuery = (IQueryable<string>)_context.Course.OrderBy(m => m.Programme).Select(m => m.Programme).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
+
+            if (!string.IsNullOrEmpty(SearchList))
+            {
+                courses = courses.Where(s => s.Title.Contains(SearchList)); // ako go sodr\i soodvetniot naslov
+            }
+            courses = courses.Where(s => s.Semester == CourseSemester);
+            /*if (CourseSemester != null)
+            {
+                courses = courses.Where(s => s.Semester == CourseSemester);
+            }*/
+            if (!string.IsNullOrEmpty(CourseProgramme))
+            {
+                courses = courses.Where(s => s.Programme == CourseProgramme);
+            }
+
+            courses = courses.Include(c => c.FirstTeacher).Include(c => c.SecondTeacher).Include(n => n.Students).ThenInclude(n => n.Student);
+
+            var CourseVM = new CourseSearchViewModel
+            {
+                Semesters = new SelectList(semesterQuery.AsEnumerable()),
+                Programmes = new SelectList(programmeQuery.AsEnumerable()),
+                Course = courses.AsEnumerable()
+
+            };
+
+            return View(CourseVM);
         }
 
         // GET: Courses/Details/5

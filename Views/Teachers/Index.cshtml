@@ -1,4 +1,4 @@
-﻿@model IEnumerable<University.Models.Teacher>
+﻿@model University.ViewModels.TeacherSearchViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,38 +9,51 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Teachers" asp-action="Index" method="get">
+    <select asp-for="TeacherAcademicRank" asp-items="Model.AcademicRanks">
+        <option value="">All</option>
+    </select>
+    <select asp-for="TeacherDegree" asp-items="Model.Degrees">
+        <option value="">All</option>
+    </select>
+    First Name: <input type="text" asp-for="SearchName" />
+    Last Name: <input type="text" asp-for="SearchLast" />
+    <input type="submit" value="Filter" />
+
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Degree)
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().Degree)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AcademicRank)
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().AcademicRank)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OfficeNumber)
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().OfficeNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HireDate)
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().HireDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstCourses) <!--First Course-->
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().FirstCourses) <!--First Course-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SecondCourses) <!--Second Course-->
+                @Html.DisplayNameFor(model => model.Teachers.FirstOrDefault().SecondCourses) <!--Second Course-->
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Teachers) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)

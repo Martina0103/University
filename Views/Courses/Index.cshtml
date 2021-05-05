@@ -1,4 +1,4 @@
-﻿@model IEnumerable<University.Models.Course>
+﻿@model University.ViewModels.CourseSearchViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,81 +9,93 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Courses" asp-action="Index" method="get">
+    <select asp-for="CourseSemester" asp-items="Model.Semesters">
+        <option value="">All</option>
+    </select>
+    <select asp-for="CourseProgramme" asp-items="Model.Programmes">
+        <option value="">All</option>
+    </select>
+    Title: <input type="text" asp-for="SearchList" />
+    <input type="submit" value="Filter" />
+
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Credits)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().Credits)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Semester)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().Semester)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Programme)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().Programme)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EducationLevel)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().EducationLevel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstTeacher)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().FirstTeacher)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SecondTeacher)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().SecondTeacher)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Students)
+                @Html.DisplayNameFor(model => model.Course.FirstOrDefault().Students)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Credits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Semester)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Programme)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EducationLevel)
-            </td>
+        @foreach (var item in Model.Course)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Credits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Semester)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Programme)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EducationLevel)
+                </td>
 
-            <td>
-                @if (item.FirstTeacherId != null)
-                {<a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.FirstTeacherId"> @Html.DisplayFor(modelItem => item.FirstTeacher.FullName)</a>}
-            </td>
+                <td>
+                    @if (item.FirstTeacherId != null)
+                    {<a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.FirstTeacherId"> @Html.DisplayFor(modelItem => item.FirstTeacher.FullName)</a>}
+                </td>
 
-            <td>
-                @if (item.SecondTeacherId != null)
-                {
-                    <a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.SecondTeacherId"> @Html.DisplayFor(modelItem => item.SecondTeacher.FullName)</a>
-                }
-            </td>
+                <td>
+                    @if (item.SecondTeacherId != null)
+                    {
+                        <a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.SecondTeacherId"> @Html.DisplayFor(modelItem => item.SecondTeacher.FullName)</a>
+                    }
+                </td>
 
-            <!-- Dodavame studenti vo Delete/Details/Index on -->
-            <td>
-                @foreach (var student in item.Students)
-                {
-                    <a asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId"> @student.Student.FullName </a> <br />
-                }
-            </td>
+                <!-- Dodavame studenti vo Delete/Details/Index on -->
+                <td>
+                    @foreach (var student in item.Students)
+                    {
+                        <a asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId"> @student.Student.FullName </a> <br />
+                    }
+                </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

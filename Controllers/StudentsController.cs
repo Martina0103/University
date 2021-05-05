@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using University.Data;
 using University.Models;
+using University.ViewModels;
 
 namespace University.Controllers
 {
@@ -20,9 +21,36 @@ namespace University.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string StudentStudentId, string SearchName, string SearchLast)
         {
-            return View(await _context.Student.ToListAsync());
+            IQueryable<Student> students = _context.Student.AsQueryable();
+            IQueryable<string> StudentIdQuery = (IQueryable<string>)_context.Student.OrderBy(m => m.StudentId).Select(m => m.StudentId).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
+            
+
+            if (!string.IsNullOrEmpty(SearchName))
+            {
+                students = students.Where(s => s.FirstName.Contains(SearchName)); // ako go sodrzi soodvetnoto ime
+            }
+            if (!string.IsNullOrEmpty(SearchLast))
+            {
+                students = students.Where(s => s.LastName.Contains(SearchLast)); // ako go sodrzi soodvetnoto ime
+            }
+            if (!string.IsNullOrEmpty(StudentStudentId))
+            {
+                students = students.Where(s => s.StudentId == StudentStudentId);
+            }
+            
+
+            /*teachers = teachers.Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher)
+                .Include(m => m.SecondCourses).ThenInclude(m => m.SecondTeacher);*/
+
+            var StudentVM = new StudentSearchViewModel
+            {
+                StudentIds = new SelectList(StudentIdQuery.AsEnumerable()),
+                Students = students.AsEnumerable()
+
+            };
+            return View(StudentVM);
         }
 
         // GET: Students/Details/5

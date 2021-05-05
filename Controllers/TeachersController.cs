@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using University.Data;
 using University.Models;
+using University.ViewModels;
 
 namespace University.Controllers
 {
@@ -20,15 +21,48 @@ namespace University.Controllers
         }
 
         // GET: Teachers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string TeacherDegree, string TeacherAcademicRank, string SearchName, string SearchLast)
         {
             // return View(await _context.Teacher.ToListAsync());
 
             // Dodadeno za da gi pokazuva predmetite vo Teachers Controller-ot ***
-            var universityContext = _context.Teacher.Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher)
-                .Include(m => m.SecondCourses).ThenInclude(m => m.SecondTeacher); //dodadeno e 
-            return View(await universityContext.ToListAsync());
+            /*var universityContext = _context.Teacher.Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher)
+                .Include(m => m.SecondCourses).ThenInclude(m => m.SecondTeacher); //dodadeno e */
             //******
+            IQueryable<Teacher> teachers  = _context.Teacher.AsQueryable();
+            IQueryable<string> AcademicRankQuery = (IQueryable<string>)_context.Teacher.OrderBy(m => m.AcademicRank).Select(m => m.AcademicRank).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
+            IQueryable<string> DegreeQuery = (IQueryable<string>)_context.Teacher.OrderBy(m => m.Degree).Select(m => m.Degree).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
+
+            if (!string.IsNullOrEmpty(SearchName))
+            {
+                teachers = teachers.Where(s => s.FirstName.Contains(SearchName)); // ako go sodr\i soodvetniot naslov
+            }
+            if (!string.IsNullOrEmpty(SearchLast))
+            {
+                teachers = teachers.Where(s => s.LastName.Contains(SearchLast)); // ako go sodr\i soodvetniot naslov
+            }
+            if (!string.IsNullOrEmpty(TeacherDegree))
+            {
+                teachers = teachers.Where(s => s.Degree == TeacherDegree);
+            }
+            if (!string.IsNullOrEmpty(TeacherAcademicRank))
+            {
+                teachers = teachers.Where(s => s.AcademicRank == TeacherAcademicRank);
+            }
+
+            teachers = teachers.Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher)
+                .Include(m => m.SecondCourses).ThenInclude(m => m.SecondTeacher);
+
+            var TeacherVM = new TeacherSearchViewModel
+            {
+                Degrees = new SelectList(DegreeQuery.AsEnumerable()),
+                AcademicRanks = new SelectList(AcademicRankQuery.AsEnumerable()),
+                Teachers = teachers.AsEnumerable()
+
+            };
+
+            return View(TeacherVM);
+            
         }
 
         // GET: Teachers/Details/5
