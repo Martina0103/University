@@ -46,8 +46,8 @@ namespace University.Controllers
 
             var StudentVM = new StudentSearchViewModel
             {
-                StudentIds = new SelectList(StudentIdQuery.AsEnumerable()),
-                Students = students.AsEnumerable()
+                StudentIds = new SelectList(await StudentIdQuery.ToListAsync()),
+                Students =await students.ToListAsync()
 
             };
             return View(StudentVM);

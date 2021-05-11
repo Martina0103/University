@@ -55,9 +55,9 @@ namespace University.Controllers
 
             var TeacherVM = new TeacherSearchViewModel
             {
-                Degrees = new SelectList(DegreeQuery.AsEnumerable()),
-                AcademicRanks = new SelectList(AcademicRankQuery.AsEnumerable()),
-                Teachers = teachers.AsEnumerable()
+                Degrees = new SelectList(await DegreeQuery.ToListAsync()),
+                AcademicRanks = new SelectList(await AcademicRankQuery.ToListAsync()),
+                Teachers = await teachers.ToListAsync()
 
             };
 

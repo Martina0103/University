@@ -28,18 +28,18 @@ namespace University.Models
 
                 // DODAVAME VO TABELATA Teacher
                 context.Teacher.AddRange(
-                    new Teacher { /*Id = 1, */FirstName = "Daniel", LastName = "Denkovski", Degree = "PhD", AcademicRank = "Asst. Professor", OfficeNumber = "+ 389 2 3099 177", HireDate = DateTime.Parse("2017-1-1") },
-                    new Teacher { /*Id = 2, */FirstName = "Pero", LastName = "Latkovski", Degree = "PhD", AcademicRank = "Professor", OfficeNumber = "+389 2 3099 113", HireDate = DateTime.Parse("2004-1-1") },
-                    new Teacher { /*Id = 3, */FirstName = "Danijela", LastName = "Efnusheva", Degree = "PhD", AcademicRank = "Asst. Professor", OfficeNumber = "+ 389 2 3099 177", HireDate = DateTime.Parse("2009-2-1") },
-                    new Teacher { /*Id = 3, */FirstName = "Ana", LastName = "Colakoska", Degree = "M.Sc.", AcademicRank = "Assistant", OfficeNumber = "+ 389 2 3099 177", HireDate = DateTime.Parse("2017-9-1") }
+                    new Teacher { /*Id = 1, */FirstName = "Daniel", LastName = "Denkovski", Degree = "PhD", AcademicRank = "Asst. Professor", OfficeNumber = "+ 389 2 3099 177", /*HireDate = DateTime.Parse("2017-1-1") */},
+                    new Teacher { /*Id = 2, */FirstName = "Pero", LastName = "Latkovski", Degree = "PhD", AcademicRank = "Professor", OfficeNumber = "+389 2 3099 113", /*HireDate = DateTime.Parse("2004-1-1") */},
+                    new Teacher { /*Id = 3, */FirstName = "Danijela", LastName = "Efnusheva", Degree = "PhD", AcademicRank = "Asst. Professor", OfficeNumber = "+ 389 2 3099 177", /*HireDate = DateTime.Parse("2009-2-1")*/ },
+                    new Teacher { /*Id = 3, */FirstName = "Ana", LastName = "Colakoska", Degree = "M.Sc.", AcademicRank = "Assistant", OfficeNumber = "+ 389 2 3099 177", /*HireDate = DateTime.Parse("2017-9-1")*/ }
                 );
                 context.SaveChanges();
 
                 //dodavame vo tabelata Student
                 context.Student.AddRange(
-                    new Student { /*Id = 1, */StudentId = "193/2017", FirstName = "Martina", LastName = "Markovska", EnrollmentDate = DateTime.Parse("2017-9-15"), AcquiredCredits = 195, CurrentSemester = 8, EducationLevel = "student" },
-                    new Student { /*Id = 2, */StudentId = "184/2017", FirstName = "Elena", LastName = "Indovska", EnrollmentDate = DateTime.Parse("2017-9-15"), CurrentSemester = 8, EducationLevel = "student" },
-                    new Student { /*Id = 3, */StudentId = "171/2017", FirstName = "Darko", LastName = "Angelovski", EnrollmentDate = DateTime.Parse("2017-9-15"), CurrentSemester = 8, EducationLevel = "student" }
+                    new Student { /*Id = 1, */StudentId = "193/2017", FirstName = "Martina", LastName = "Markovska", /*EnrollmentDate = DateTime.Parse("2017-9-15"),*/ AcquiredCredits = 195, CurrentSemester = 8, EducationLevel = "student" },
+                    new Student { /*Id = 2, */StudentId = "184/2017", FirstName = "Elena", LastName = "Indovska", /*EnrollmentDate = DateTime.Parse("2017-9-15"),*/ CurrentSemester = 8, EducationLevel = "student" },
+                    new Student { /*Id = 3, */StudentId = "171/2017", FirstName = "Darko", LastName = "Angelovski", /*EnrollmentDate = DateTime.Parse("2017-9-15"),*/ CurrentSemester = 8, EducationLevel = "student" }
                 );
                 context.SaveChanges();
 

@@ -9,11 +9,11 @@ namespace University.ViewModels
 {
     public class CourseSearchViewModel
     {
-        public IEnumerable<Course> Course { get; set; }
+        public IEnumerable<Course> Courses { get; set; }
         public SelectList Semesters { get; set; } //za semestar
         public int CourseSemester { get; set; } //int vrednost barame
-        public SelectList Programmes { get; set; } //za programa
-        public string CourseProgramme { get; set; } //string vrednost barame od Modelot
+        public SelectList Programs { get; set; } //za programa
+        public string CourseProgram { get; set; } //string vrednost barame od Modelot
         public string SearchList { get; set; } //za naslovot (title)
 
 
