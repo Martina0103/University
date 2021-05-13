@@ -11,10 +11,10 @@
 </p>
 
 <form asp-controller="Courses" asp-action="Index" method="get">
-    <select asp-for="CourseSemester" asp-items="Model.Semesters">
+    Semester: <select asp-for="CourseSemester" asp-items="Model.Semesters">
         <option value="">All</option>
     </select>
-    <select asp-for="CourseProgram" asp-items="Model.Programs">
+    Program: <select asp-for="CourseProgram" asp-items="Model.Programs">
         <option value="">All</option>
     </select>
     Title: <input type="text" asp-for="SearchList" />

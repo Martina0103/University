@@ -14,5 +14,9 @@ namespace University.ViewModels
         public string StudentStudentId { get; set; } //string vrednost barame
         public string SearchName { get; set; } //za imeto (FirstName)
         public string SearchLast { get; set; } // za prezimeto
+       /* public string Full  
+        {
+            get { return String.Format("{0} {1}", SearchName, SearchLast); }
+        }*/
     }
 }

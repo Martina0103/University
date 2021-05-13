@@ -29,11 +29,12 @@ namespace University.Controllers
 
             if (!string.IsNullOrEmpty(SearchName))
             {
+                /*var celo = String.Format("{0} {1}", SearchName, SearchLast);*/
                 students = students.Where(s => s.FirstName.Contains(SearchName)); // ako go sodrzi soodvetnoto ime
             }
             if (!string.IsNullOrEmpty(SearchLast))
             {
-                students = students.Where(s => s.LastName.Contains(SearchLast)); // ako go sodrzi soodvetnoto ime
+                students = students.Where(s => s.LastName.Contains(SearchLast)); // ako go sodrzi soodvetnoto prezime
             }
             if (!string.IsNullOrEmpty(StudentStudentId))
             {

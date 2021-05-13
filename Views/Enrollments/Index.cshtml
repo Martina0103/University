@@ -1,0 +1,122 @@
+﻿@model University.ViewModels.EnrollmentSearchView
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Enrolled students</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-controller="Enrollments" asp-action="Index" method="get">
+    Index: <select asp-for="EnrollmentIndex" asp-items="Model.Indexes">
+        <option value="">All</option>
+    </select>
+    @*Year:<select asp-for="EnrollmentYear" asp-items="Model.Years">
+        <option value="">All</option>
+    </select>*@
+    Title: <input type="text" asp-for="SearchList" />
+    <input type="submit" value="Filter" />
+
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollments.FirstOrDefault().Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollments.FirstOrDefault().Student)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollments.FirstOrDefault().Semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollments.FirstOrDefault().Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollments.FirstOrDefault().FinishDate)
+            </th>
+
+        @*
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeminarUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeminarPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectPoints)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.AdditionalPoints)
+            </th>
+        *@
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Enrollments) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Title)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Student.FirstName)
+            </td>*@
+            <td>
+                @if (item.Student != null)
+                {<a asp-controller="Students" asp-action="Details" asp-route-id="@item.StudentId"> @Html.DisplayFor(modelItem => item.Student.FullName)</a>}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semester)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinishDate)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Grade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeminarUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamPoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeminarPoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectPoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdditionalPoints)
+        </td>*@
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <!-- <a asp-action="Details" asp-route-id="@item.Id">Details</a> | -->
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

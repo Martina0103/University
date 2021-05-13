@@ -81,12 +81,42 @@ namespace University.Models
                 context.SaveChanges();
 
                 context.Enrollment.AddRange(
-                    new Enrollment { CourseId = 2, StudentId = 3, Semester = "7" }, //MSU i Martina
-                    new Enrollment { CourseId = 1, StudentId = 3, Semester = "6" }, //Ds i Martina
-                    new Enrollment { CourseId = 3, StudentId = 3, Semester = "8" }, //RSWEB i Martina
-                    new Enrollment { CourseId = 1, StudentId = 2, Semester = "6" }, //Ds i Elena
-                    new Enrollment { CourseId = 1, StudentId = 1, Semester = "8" }, //Ds i Darko
-                    new Enrollment { CourseId = 3, StudentId = 2, Semester = "8" } //RSWEB i Elena
+                    new Enrollment { 
+                        CourseId = 2, 
+                        StudentId = 3, 
+                        Semester = "Fall",
+                        Year=2021
+                    }, //MSU i Martina
+                    new Enrollment { 
+                        CourseId = 1, 
+                        StudentId = 3, 
+                        Semester = "Spring",
+                        Year=2021
+                    }, //Ds i Martina
+                    new Enrollment { 
+                        CourseId = 3, 
+                        StudentId = 3,
+                        Semester = "Spring",
+                        Year = 2021
+                    }, //RSWEB i Martina
+                    new Enrollment { 
+                        CourseId = 1, 
+                        StudentId = 2, 
+                        Semester = "Spring",
+                        Year = 2021
+                    }, //Ds i Elena
+                    new Enrollment { 
+                        CourseId = 1, 
+                        StudentId = 1,
+                        Semester = "Spring",
+                        Year = 2021
+                    }, //Ds i Darko
+                    new Enrollment { 
+                        CourseId = 3, 
+                        StudentId = 2,
+                        Semester = "Spring",
+                        Year = 2021
+                    } //RSWEB i Elena
                     
                 );
 
