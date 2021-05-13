@@ -39,10 +39,9 @@ namespace University.Controllers
             {
                 students = students.Where(s => s.StudentId == StudentStudentId);
             }
-            
 
-            /*teachers = teachers.Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher)
-                .Include(m => m.SecondCourses).ThenInclude(m => m.SecondTeacher);*/
+
+            students = students.Include(c => c.Courses).ThenInclude(c => c.Course); //gi dodavame i Kursevite kaj studentite
 
             var StudentVM = new StudentSearchViewModel
             {
@@ -56,12 +55,14 @@ namespace University.Controllers
         // GET: Students/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var student = await _context.Student
+                .Include(n => n.Courses).ThenInclude(n => n.Course) //dodadeno
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
