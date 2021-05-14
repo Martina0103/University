@@ -14,8 +14,8 @@ namespace University.ViewModels
         public string TeacherDegree { get; set; } //string vrednost barame
         public SelectList AcademicRanks { get; set; } //za akademski rank
         public string TeacherAcademicRank { get; set; } //string vrednost barame od Modelot
-        public string SearchName { get; set; } //za imeto (FirstName)
-        public string SearchLast { get; set; } // za prezimeto
+        public string SearchList { get; set; } // za prebaruvanje FULL NAME
+        
     }
 }
 

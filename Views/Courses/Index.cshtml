@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Courses</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -14,7 +14,7 @@
     Semester: <select asp-for="CourseSemester" asp-items="Model.Semesters">
         <option value="">All</option>
     </select>
-    Program: <select asp-for="CourseProgram" asp-items="Model.Programs">
+    Programme: <select asp-for="CourseProgram" asp-items="Model.Programs">
         <option value="">All</option>
     </select>
     Title: <input type="text" asp-for="SearchList" />

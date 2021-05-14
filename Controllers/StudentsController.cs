@@ -21,21 +21,28 @@ namespace University.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string StudentStudentId, string SearchName, string SearchLast)
+        public async Task<IActionResult> Index(string StudentStudentId, string SearchList)
         {
             IQueryable<Student> students = _context.Student.AsQueryable();
-            IQueryable<string> StudentIdQuery = (IQueryable<string>)_context.Student.OrderBy(m => m.StudentId).Select(m => m.StudentId).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
-            
+            IQueryable<string> StudentIdQuery = _context.Student.OrderBy(m => m.StudentId).Select(m => m.StudentId).Distinct(); 
 
-            if (!string.IsNullOrEmpty(SearchName))
+            /* ZA PREBARUVANJE SO FULL NAME*/
+            if (!string.IsNullOrEmpty(SearchList))
             {
-                /*var celo = String.Format("{0} {1}", SearchName, SearchLast);*/
-                students = students.Where(s => s.FirstName.Contains(SearchName)); // ako go sodrzi soodvetnoto ime
+                string[] full = SearchList.Split(' ');
+                if(full.Length == 2)
+                {
+                    var ime = full[0];
+                    var prezime = full[1];
+                    students = students.Where(s => s.FirstName.Contains(ime) && s.LastName.Contains(prezime));  // Ako sodrzi ime I prezime
+                }
+                else
+                {
+                    students = students.Where(s => s.FirstName.Contains(SearchList) || s.LastName.Contains(SearchList)); // ako sodrzi ime ILI prezime
+                }
+                
             }
-            if (!string.IsNullOrEmpty(SearchLast))
-            {
-                students = students.Where(s => s.LastName.Contains(SearchLast)); // ako go sodrzi soodvetnoto prezime
-            }
+            
             if (!string.IsNullOrEmpty(StudentStudentId))
             {
                 students = students.Where(s => s.StudentId == StudentStudentId);

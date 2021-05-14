@@ -12,11 +12,8 @@ namespace University.ViewModels
         public IEnumerable<Student> Students { get; set; }
         public SelectList StudentIds { get; set; } //za indeks na studentot
         public string StudentStudentId { get; set; } //string vrednost barame
-        public string SearchName { get; set; } //za imeto (FirstName)
-        public string SearchLast { get; set; } // za prezimeto
-       /* public string Full  
-        {
-            get { return String.Format("{0} {1}", SearchName, SearchLast); }
-        }*/
+        public string SearchList { get; set; } //prebaruvame Ime i Prezime
+ 
+       
     }
 }

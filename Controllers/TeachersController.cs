@@ -21,26 +21,30 @@ namespace University.Controllers
         }
 
         // GET: Teachers
-        public async Task<IActionResult> Index(string TeacherDegree, string TeacherAcademicRank, string SearchName, string SearchLast)
+        public async Task<IActionResult> Index(string TeacherDegree, string TeacherAcademicRank, string SearchList )
         {
-            // return View(await _context.Teacher.ToListAsync());
-
-            // Dodadeno za da gi pokazuva predmetite vo Teachers Controller-ot ***
-            /*var universityContext = _context.Teacher.Include(n => n.FirstCourses).ThenInclude(n => n.FirstTeacher)
-                .Include(m => m.SecondCourses).ThenInclude(m => m.SecondTeacher); //dodadeno e */
-            //******
             IQueryable<Teacher> teachers  = _context.Teacher.AsQueryable();
-            IQueryable<string> AcademicRankQuery = (IQueryable<string>)_context.Teacher.OrderBy(m => m.AcademicRank).Select(m => m.AcademicRank).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
-            IQueryable<string> DegreeQuery = (IQueryable<string>)_context.Teacher.OrderBy(m => m.Degree).Select(m => m.Degree).Distinct(); // dodadov (IQueryable<string>) inaku mi javuva greshka
+            IQueryable<string> AcademicRankQuery = _context.Teacher.OrderBy(m => m.AcademicRank).Select(m => m.AcademicRank).Distinct(); 
+            IQueryable<string> DegreeQuery = _context.Teacher.OrderBy(m => m.Degree).Select(m => m.Degree).Distinct(); 
 
-            if (!string.IsNullOrEmpty(SearchName))
+            if (!string.IsNullOrEmpty(SearchList))
             {
-                teachers = teachers.Where(s => s.FirstName.Contains(SearchName)); // ako go sodr\i soodvetniot naslov
+                string[] full = SearchList.Split(' ');
+                if(full.Length == 2)
+                {
+                    var ime = full[0];
+                    var prezime = full[1];
+                    teachers = teachers.Where(s => s.FirstName.Contains(ime) && s.LastName.Contains(prezime)); // ako sme vnele ime I prezime za prebaruvanje
+                }
+                else
+                {
+                    teachers = teachers.Where(s => s.FirstName.Contains(SearchList) || s.LastName.Contains(SearchList)); // ako sme vnele ime ILI prezime za prebaruvanje
+
+                }
+                
             }
-            if (!string.IsNullOrEmpty(SearchLast))
-            {
-                teachers = teachers.Where(s => s.LastName.Contains(SearchLast)); // ako go sodr\i soodvetniot naslov
-            }
+           
+
             if (!string.IsNullOrEmpty(TeacherDegree))
             {
                 teachers = teachers.Where(s => s.Degree == TeacherDegree);

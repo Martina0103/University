@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Students</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -14,8 +14,9 @@
         <option value="">All</option>
     </select>
 
-    Name: <input type="text" asp-for="SearchName"/>
-    Last Name: <input type="text" asp-for="SearchLast" />
+    Full Name: <input type="text" asp-for="SearchList" />
+    @*Name: <input type="text" asp-for="SearchName" />
+    Last Name: <input type="text" asp-for="SearchLast" />*@
     <input type="submit" value="Filter" />
 
 </form>
