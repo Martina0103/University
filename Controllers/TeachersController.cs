@@ -209,5 +209,14 @@ namespace University.Controllers
         {
             return _context.Teacher.Any(e => e.Id == id);
         }
+        public async Task<IActionResult> TCourses(long? id)
+        {
+            var courses = _context.Course.Where(m => m.FirstTeacherId == id || m.SecondTeacherId == id);
+            courses = courses.Include(m => m.FirstTeacher).Include(m => m.SecondTeacher);
+            ViewData["TeacherFullName"] = _context.Teacher.Where(t => t.Id == id).Select(t => t.FullName).FirstOrDefault();
+            ViewData["TeacherId"] = id;
+            ViewData["TeacherAcademicRank"] = _context.Teacher.Where(t => t.Id == id).Select(t => t.AcademicRank).FirstOrDefault();
+            return View(courses);
+        }
     }
 }

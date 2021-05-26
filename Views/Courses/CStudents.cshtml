@@ -1,30 +1,15 @@
-﻿@model University.ViewModels.StudentSearchViewModel
-
+﻿@model IEnumerable<University.Models.Student>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "CStudents";
 }
 
-<h1>Students</h1>
+<h1>@ViewData["Title"] erolled sstudents</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-controller="Students" asp-action="Index" method="get">
-    Index: <select asp-for="StudentStudentId" asp-items="Model.StudentIds">
-        <option value="">All</option>
-    </select>
-
-    Full Name: <input type="text" asp-for="SearchList" />
-    @*Name: <input type="text" asp-for="SearchName" />
-    Last Name: <input type="text" asp-for="SearchLast" />*@
-    <input type="submit" value="Filter" />
-
-</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Students.FirstOrDefault().StudentId)
+                @Html.DisplayNameFor(model => model.StudentId)
             </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.Students.FirstOrDefault().FirstName)
@@ -33,28 +18,28 @@
                 @Html.DisplayNameFor(model => model.Students.FirstOrDefault().LastName)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Students.FirstOrDefault().FullName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Students.FirstOrDefault().EnrollmentDate)
+                @Html.DisplayNameFor(model => model.EnrollmentDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Students.FirstOrDefault().AcquiredCredits)
+                @Html.DisplayNameFor(model => model.AcquiredCredits)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Students.FirstOrDefault().CurrentSemester)
+                @Html.DisplayNameFor(model => model.CurrentSemester)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Students.FirstOrDefault().EducationLevel)
+                @Html.DisplayNameFor(model => model.EducationLevel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Students.FirstOrDefault().Courses) <!--go dodavame kursot na sekoj student-->
+                @Html.DisplayNameFor(model => model.Courses) <!--go dodavame kursot na sekoj student-->
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Students) {
+@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.StudentId)
@@ -89,13 +74,10 @@
             </td>
             *@
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-action="SCourses" asp-route-id="@item.Id">Courses</a>
-            </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+

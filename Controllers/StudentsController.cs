@@ -60,6 +60,7 @@ namespace University.Controllers
             return View(StudentVM);
         }
 
+
         // GET: Students/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -185,6 +186,20 @@ namespace University.Controllers
         private bool StudentExists(long id)
         {
             return _context.Student.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> SCourses(long? id)
+        {
+            IQueryable<Course> courses = _context.Course.Include(f => f.FirstTeacher).Include(s => s.SecondTeacher).AsQueryable();
+            IQueryable<Enrollment> enrollments = _context.Enrollment.AsQueryable();
+
+            enrollments = enrollments.Where(s => s.StudentId == id);
+            IEnumerable<int> enrollmentsCoursesId = enrollments.Select(m => m.CourseId).Distinct();
+            courses = courses.Where(m => enrollmentsCoursesId.Contains(m.Id));
+            courses = courses.Include(m => m.Students).ThenInclude(m => m.Student);
+            ViewData["StudentFullName"] = _context.Student.Where(t => t.Id == id).Select(t => t.FullName).FirstOrDefault();
+            ViewData["StudentId"] = id;
+            return View(courses);
         }
     }
 }

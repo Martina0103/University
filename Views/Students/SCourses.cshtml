@@ -1,61 +1,43 @@
-﻿@model University.ViewModels.CourseSearchViewModel
-
+﻿@model IEnumerable<University.Models.Course>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SCourses";
 }
 
-<h1>Courses</h1>
+<h3>@ViewData["StudentFullName"] erolled courses</h3>
+<br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<!--Iskopirano od Courses Index-->
 
-<form asp-controller="Courses" asp-action="Index" method="get">
-    Semester: <select asp-for="CourseSemester" asp-items="Model.Semesters">
-        <option value="">All</option>
-    </select>
-    Programme: <select asp-for="CourseProgram" asp-items="Model.Programs">
-        <option value="">All</option>
-    </select>
-    Title: <input type="text" asp-for="SearchList" />
-    <input type="submit" value="Filter" />
-
-</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Title)
+                @Html.DisplayNameFor(model => model.Title) 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Credits)
+                @Html.DisplayNameFor(model => model.Credits)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Semester)
+                @Html.DisplayNameFor(model => model.Semester)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Programme)
+                @Html.DisplayNameFor(model => model.Programme)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().EducationLevel)
+                @Html.DisplayNameFor(model => model.EducationLevel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().FirstTeacher)
+                @Html.DisplayNameFor(model => model.FirstTeacher)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().SecondTeacher)
+                @Html.DisplayNameFor(model => model.SecondTeacher)
             </th>
-            @*  
-            <th>
-                @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Students)
-            </th>
-            *@
             <th></th>
         </tr>
         
     </thead>
     <tbody>
-@foreach (var item in Model.Courses){
+@foreach (var item in Model){
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -82,7 +64,7 @@
                     <a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.SecondTeacherId"> @Html.DisplayFor(modelItem => item.SecondTeacher.FullName)</a>
                 }
             </td>
-            @*  
+
                 <!-- Dodavame studenti vo Delete/Details/Index on -->
                 <td>
                     @foreach (var student in item.Students)
@@ -90,14 +72,23 @@
                         <a asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId"> @student.Student.FullName </a> <br />
                     }
                 </td>
-            *@
+
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    <a asp-action="CStudents" asp-route-id="@item.Id">Students</a>
+                    @{
+                        var enrollments = item.Students.Where(s => s.StudentId.ToString() == ViewData["StudentId"].ToString()).FirstOrDefault();
+                    }
+                    <a asp-controller="Enrollments" asp-action="Details" asp-route-id="@enrollments.Id">Details</a> |
+                    @if (enrollments.FinishDate == null)
+                    {
+                        <a asp-controller="Enrollments" asp-action="EditByStudent" asp-route-id="@enrollments.Id">Edit |</a>
+                    }
+                    
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
